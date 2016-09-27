@@ -1,7 +1,6 @@
 'use strict'
 
 exports.handle = function handle(client) {
-
   const sayHello = client.createStep({
     satisfied() {
       return Boolean(client.getConversationState().helloSent)
@@ -9,12 +8,25 @@ exports.handle = function handle(client) {
 
     prompt() {
       client.addResponse('app:response:name:welcome')
-      client.addResponse('app:response:name:provide/documentation', {
-        documentation_link: 'http://docs.init.ai',
-      })
-      client.addResponse('app:response:name:provide/instructions')
-      client.updateConversationState({
-        helloSent: true
+      // client.addResponse('app:response:name:provide/documentation', {
+      //   documentation_link: 'http://docs.init.ai',
+      // })
+      // client.addResponse('app:response:name:provide/instructions')
+      // client.updateConversationState({
+      //   helloSent: true
+      // })
+      client.done()
+    }
+  })
+
+  const provideGameTime = client.createStep({
+    satisfied() {
+      return false
+    },
+
+    prompt() {
+      client.addResponse('app:response:name:provide/game_time', {
+        game_time: '6:05 pm CDT',
       })
       client.done()
     }
@@ -40,6 +52,7 @@ exports.handle = function handle(client) {
     },
     streams: {
       main: 'onboarding',
+      provideCubsGameInfo: [provideGameTime],
       onboarding: [sayHello],
       end: [untrained]
     }
