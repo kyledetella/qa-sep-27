@@ -12,5 +12,5 @@ hey, when are the [cubs](team) playing next?
 did they win last night?
 * request/game_result
 
-< the [cubs](team) beat the [pirates](team) [12-2](game_score) last night
+< the cubs beat the [pirates](team/opponent) [12-2](game_score) last night
 * provide/game_result
