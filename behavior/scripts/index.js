@@ -56,14 +56,14 @@ exports.handle = function handle(client) {
     classifications: {
 			// map inbound message classifications to names of streams
       'request/game_time': 'provideCubsGameInfo',
-      'request/game_result': 'provideGameResults',
+      'request/game_result': 'provideCubsGameInfo',
     },
     autoResponses: {
       // configure responses to be automatically sent as predicted by the machine learning model
     },
     streams: {
       main: 'onboarding',
-      provideCubsGameInfo: [provideGameTime],
+      provideCubsGameInfo: [provideGameTime, provideGameResults],
       onboarding: [sayHello],
       end: [untrained]
     }
