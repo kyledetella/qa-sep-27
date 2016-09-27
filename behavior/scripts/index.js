@@ -8,13 +8,6 @@ exports.handle = function handle(client) {
 
     prompt() {
       client.addResponse('app:response:name:welcome')
-      // client.addResponse('app:response:name:provide/documentation', {
-      //   documentation_link: 'http://docs.init.ai',
-      // })
-      // client.addResponse('app:response:name:provide/instructions')
-      // client.updateConversationState({
-      //   helloSent: true
-      // })
       client.done()
     }
   })
@@ -26,7 +19,23 @@ exports.handle = function handle(client) {
 
     prompt() {
       client.addResponse('app:response:name:provide/game_time', {
-        game_time: '6:05 pm CDT',
+        'time/game': '6:05 pm CDT',
+        'team/opponent': 'Pirates',
+      })
+      client.done()
+    }
+  })
+
+  const provideGameResults = client.createStep({
+    satisfied() {
+      return false
+    },
+
+    prompt() {
+      console.log('>>>>>>>>>>>')
+      client.addResponse('app:response:name:provide/game_result', {
+        'team/opponent': 'Pittsburgh Pirates',
+        'game_score': '12-2',
       })
       client.done()
     }
@@ -38,7 +47,7 @@ exports.handle = function handle(client) {
     },
 
     prompt() {
-      client.addResponse('app:response:name:apology/untrained')
+      client.addTextResponse('Over my head...can you try again?')
       client.done()
     }
   })
@@ -46,6 +55,8 @@ exports.handle = function handle(client) {
   client.runFlow({
     classifications: {
 			// map inbound message classifications to names of streams
+      'request/game_time': 'provideCubsGameInfo',
+      'request/game_result': 'provideGameResults',
     },
     autoResponses: {
       // configure responses to be automatically sent as predicted by the machine learning model
